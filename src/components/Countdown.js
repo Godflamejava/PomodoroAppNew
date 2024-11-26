@@ -125,13 +125,11 @@ const Countdown = ({ seconds,isRunning}) => {
       }, 1000);
     } else {
       clearInterval(timer);
+      updateAllSegments();
     }
     return () => clearInterval(timer);
   }, [isRunning]);
 
-  useEffect(() => {
-    updateAllSegments();
-  }, []);
 
   return (
     <div class="countdown">
