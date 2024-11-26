@@ -3,11 +3,13 @@
 }
 
 .countdown {
-  margin: 100px auto;
+  margin: 30px auto;
   width: 50%;
   display: flex;
   gap: 30px;
   font-family: sans-serif;
+  flex-wrap: nowrap;
+  justify-content: center;
 }
 
 .time-section {

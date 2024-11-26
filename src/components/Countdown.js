@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./Countdown.css";
 
-const Countdown = () => {
-  let seconds = 1500;
-  let minutes = Math.floor(seconds / 60);
+const Countdown = ({ seconds,isRunning}) => {
+  seconds = seconds+1;
+  var minutes = Math.ceil(seconds / 60);
   function getTimeSegmentElements(segmentElement) {
     const segmentDisplay = segmentElement.querySelector(".segment-display");
     const segmentDisplayTop = segmentDisplay.querySelector(
@@ -106,22 +106,32 @@ const Countdown = () => {
   }
 
   function updateAllSegments() {
-    seconds = seconds - 1;
+    seconds=seconds-1;
     updateTimeSection("seconds", seconds % 60);
     if (minutes != Math.floor(seconds / 60)) {
-      minutes--;
+      minutes=minutes-1;
       updateTimeSection("minutes", minutes);
     }
     return seconds;
   }
-
-  const countdownTimer = setInterval(() => {
-    const isComplete = updateAllSegments();
-
-    if (isComplete == 0) {
-      clearInterval(countdownTimer);
+  useEffect(() => {
+    let timer;
+    if (isRunning) {
+      timer = setInterval(() => {
+        const isComplete = updateAllSegments();
+        if (isComplete == 0) {
+          clearInterval(countdownTimer);
+        }
+      }, 1000);
+    } else {
+      clearInterval(timer);
     }
-  }, 1000);
+    return () => clearInterval(timer);
+  }, [isRunning]);
+
+  useEffect(() => {
+    updateAllSegments();
+  }, []);
 
   return (
     <div class="countdown">
@@ -148,7 +158,6 @@ const Countdown = () => {
             </div>
           </div>
         </div>
-        <p>Minutes</p>
       </div>
 
       <div class="time-section" id="seconds">
@@ -174,7 +183,6 @@ const Countdown = () => {
             </div>
           </div>
         </div>
-        <p>Seconds</p>
       </div>
     </div>
   );
