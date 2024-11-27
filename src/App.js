@@ -14,8 +14,10 @@ const App = () => {
 
 
   return <div class="main-body"> 
+  <div class="timer-body">
     <Countdown seconds={time} isRunning={isRunning}/>
     <Button funtionToBeCalled={handleTimerStateChange} shouldChange={isRunning} changeNameTo={"Reset"}/>
+    </div>
   </div>;
 };
 export default App;
